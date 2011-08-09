@@ -1,0 +1,13 @@
+.fut_labels {
+	font-weight: bold;
+	display: block;
+	color: #888888;
+	text-decoration: underline;	
+}
+
+.sharing_space {
+	border: 1px dotted #555555;
+	padding: 0.5em;
+	clear: both;
+	margin-top: 2em; 
+}

@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+
+{% block page_title %}Connexion{% endblock %}
+
+{% block extra_css %}
+	<link href="{{ STATIC_URL }}css/login.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block content_title %}Connexion{% endblock %}
+
+{% block content %}
+	<form method="post" action="{% url login %}">
+	{% csrf_token %}
+	<table>
+		{% if form.errors %}
+		<tr>
+		    <td colspan="2" class="error">Identifiant ou mot de passe incorrect. Veuillez essayer à nouveau.</td>
+		</tr>
+		{% endif %}
+		<tr>
+		    <td class="label">Identifiant : </td>
+		    <td class="field">{{ form.username }}</td>
+		</tr>
+		<tr>
+		    <td class="label">Mot de passe : </td>
+		    <td class="field">{{ form.password }}</td>
+		</tr>
+		<tr>
+		    <td colspan="2" class="submit_button"><input type="submit" value="Valider" /></td>
+		</tr>
+	</table>
+	<input type="hidden" name="next" value="{% url home %}" />
+	</form>
+{% endblock %}
+
+{% block contextual_actions_menu %}
+	<li><a href="{% url home %}">Retour à la page d'acceuil</a></li>
+{% endblock %}

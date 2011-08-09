@@ -1,0 +1,68 @@
+{% extends "fut_main.html" %}
+{% load url from future %}
+
+{% block page_title %}
+	{{ block.super }}
+	{{ fut.name }}
+{% endblock %}
+
+{% block extra_css %}
+	<link href="{{ STATIC_URL }}css/treeview.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="{{ STATIC_URL }}css/fut_detail.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block extra_js %}
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.treeview.js"></script>
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/sharing_space.js"></script>
+{% endblock %}
+
+{% block contextual_nav_bar %}
+	{{ block.super }}
+	<li>></li>
+	<li>{{ fut.name }}</li>
+{% endblock %}
+
+{% block content_title %}
+	{{ block.super }}
+	{{ fut.name }}
+{% endblock %}
+
+{% block content %}
+	<p><span class="fut_labels">Description</span><span class="fut_fields">{{ fut.description }}</span></p>
+	<p><span class="fut_labels">Type de FUT</span><span class="fut_fields">{% if not fut.fut_type == None %}{{ fut.fut_type }}{% else %}Non spécifié{% endif %}</span></p>
+	<p><span class="fut_labels">Domaine</span><span class="fut_fields">{{ fut.domain }}</span></p>
+	<p><span class="fut_labels">Acteurs</span></p>
+	<table cellspacing="0" border="1" class="objects_list">
+		<tr><th>Release Manager</th><th>Superviseur du FUT</th><th>Support sur le FUT</th></tr>
+		<tr>
+			<td>
+				{% if not fut.release_manager == None %}
+				{{ fut.release_manager }}
+				{% else %}
+				Non spécifié
+				{% endif %}
+			</td>
+			<td>
+				{% if not fut.leader == None %}
+				{{ fut.leader }}
+				{% else %}
+				Non spécifié
+				{% endif %}
+			</td>
+			<td>
+				{% if not fut.support == None %}
+				{{ fut.support }}
+				{% else %}
+				Non spécifié
+				{% endif %}
+			</td>
+		</tr>
+	</table>
+	<br />
+	<div class="sharing_space">
+		<ul id="tree" class="filetree">
+			{{ tree|safe }}
+		</ul>
+	</div>
+{% endblock %}

@@ -5,9 +5,18 @@
 	text-decoration: underline;	
 }
 
-.sharing_space {
+#planning {
+	margin-bottom: 1.3em;
+	margin-top: 0.3em; 
+}
+
+#sharing_space_actions {
+	margin-top: 2em; 
+}
+
+#sharing_space {
 	border: 1px dotted #555555;
 	padding: 0.5em;
 	clear: both;
-	margin-top: 2em; 
+	font-size: 0.8em;
 }

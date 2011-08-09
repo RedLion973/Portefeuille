@@ -176,6 +176,12 @@ class FUT(models.Model):
         else:
             return u''
     get_full_target_customers.short_description = u'Clients cibles'
+    
+    def has_planning(self):
+        if self.scheduled_end_date and self.scheduled_start_date and self.effective_end_date and self.effective_start_date:
+            return True
+        else:
+            return False
 
     # Meta
     class Meta:

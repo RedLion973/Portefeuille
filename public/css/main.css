@@ -53,6 +53,10 @@ p {
 	font-weight: bold;
 }
 
+.italic {
+	font-style: italic;
+}
+
 .orange {
 	color: #FF6600;
 }

@@ -9,12 +9,97 @@
 {% block extra_css %}
 	<link href="{{ STATIC_URL }}css/treeview.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{{ STATIC_URL }}css/fut_detail.css" rel="stylesheet" type="text/css" media="screen" />
+	{% if fut.has_planning %}
+		<link href="{{ STATIC_URL }}css/fullcalendar.css" rel="stylesheet" type="text/css" media="screen" />
+	{% endif %}
 {% endblock %}
 
 {% block extra_js %}
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.treeview.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/sharing_space.js"></script>
+	{% if fut.has_planning %}
+		<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/fullcalendar.min.js"></script>
+		<script type='text/javascript'>
+			$(document).ready(function() {
+				$('#planning').fullCalendar({
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,basicWeek,basicDay'
+					},
+					editable: false,
+					height: 300,
+					firstDay: 1,
+					year:  {{ fut.scheduled_start_date|date:"Y" }},
+					month: {{ fut.scheduled_start_date|date:"n" }},
+					date: {{ fut.scheduled_start_date|date:"j" }},
+					monthNames: [
+						'Janvier',
+						'Février',
+						'Mars',
+						'Avril',
+						'Mai',
+						'Juin',
+						'Jullet',
+						'Août',
+						'Septembre',
+						'Octobre',
+						'Novembre',
+						'Décembre'
+					],
+					monthNamesShort: [
+						'Jan',
+						'Fév',
+						'Mar',
+						'Avr',
+						'Mai',
+						'Jui',
+						'Jul',
+						'Aoû',
+						'Sep',
+						'Oct',
+						'Nov',
+						'Déc'
+					],
+					dayNames: [
+						'Dimanche',
+						'Lundi',
+						'Mardi',
+						'Mercredi',
+						'Jeudi',
+						'Vendredi',
+						'Samedi'
+					],
+					dayNamesShort: [
+						'Dim',
+						'Lun',
+						'Mar',
+						'Mer',
+						'Jeu',
+						'Ven',
+						'Sam'
+					],
+					events: [
+						{
+							title: 'Planning prévisionnel du FUT',
+							backgroundColor: '#555555',
+							borderColor: '#555555',
+							start: new Date({{ fut.scheduled_start_date|date:"Y, n, j" }}),
+							end: new Date({{ fut.scheduled_end_date|date:"Y, n, j" }})
+						},
+						{
+							title: 'Planning effectif du FUT',
+							backgroundColor: '#FF6600',
+							borderColor: '#FF6600',
+							start: new Date({{ fut.effective_start_date|date:"Y, n, j" }}),
+							end: new Date({{ fut.effective_end_date|date:"Y, n, j" }})
+						}
+					]
+				});
+			});
+		</script> 
+	{% endif %}
 {% endblock %}
 
 {% block contextual_nav_bar %}
@@ -32,9 +117,19 @@
 	<p><span class="fut_labels">Description</span><span class="fut_fields">{{ fut.description }}</span></p>
 	<p><span class="fut_labels">Type de FUT</span><span class="fut_fields">{% if not fut.fut_type == None %}{{ fut.fut_type }}{% else %}Non spécifié{% endif %}</span></p>
 	<p><span class="fut_labels">Domaine</span><span class="fut_fields">{{ fut.domain }}</span></p>
+	<p><span class="fut_labels">&Eacute;tat d'avancement;</span><span class="fut_fields">{{ fut.state.phase }}{% if fut.state.phase.name == 'Terminés' %} - <span class="italic">Conclusion : </span>{% else %} - <span class="italic">&Eacute;tape : </span>{% endif %}{{ fut.state }}</span></p>
+	{% if fut.has_planning %}
+	<p><span class="fut_labels">Planning</span></p>
+	<div id="planning"></div>
+	{% else %}
+		{% if fut.scheduled_start_date %}<p><span class="fut_labels">Date de début prévue</span><span class="fut_fields">{{ fut.scheduled_start_date }}</span></p>{% endif %}
+		{% if fut.scheduled_end_date %}<p><span class="fut_labels">Date de fin prévue</span><span class="fut_fields">{{ fut.scheduled_end_date }}</span></p>{% endif %}
+		{% if fut.effective_start_date %}<p><span class="fut_labels">Date de début effective</span><span class="fut_fields">{{ fut.effective_start_date }}</span></p>{% endif %}
+		{% if fut.effective_end_date %}<p><span class="fut_labels">Date de fin effective</span><span class="fut_fields">{{ fut.effective_end_date }}</span></p>{% endif %}
+	{% endif %}
 	<p><span class="fut_labels">Acteurs</span></p>
 	<table cellspacing="0" border="1" class="objects_list">
-		<tr><th>Release Manager</th><th>Superviseur du FUT</th><th>Support sur le FUT</th></tr>
+		<tr><th>Release Manager</th><th>Superviseur du FUT</th><th>Support sur le FUT</th><th>Rôle de la FUTFactory</th></tr>
 		<tr>
 			<td>
 				{% if not fut.release_manager == None %}
@@ -57,10 +152,25 @@
 				Non spécifié
 				{% endif %}
 			</td>
+			<td>
+				{% if not fut.role_ff == None %}
+				{{ fut.role_ff }}
+				{% else %}
+				Non spécifié
+				{% endif %}
+			</td>
 		</tr>
 	</table>
-	<br />
-	<div class="sharing_space">
+	<p><span class="fut_labels">Clients cibles</span><span class="fut_fields">{{ fut.get_full_target_customers }}</span></p>
+	<p><span class="fut_labels">Nombre souhaité de FUTeurs</span><span class="fut_fields">{% if not fut.expected_number_of_futers == None %}{{ fut.expected_number_of_futers }}{% else %}Non spécifié{% endif %}</span></p>
+	<p><span class="fut_labels">Nombre effectif de FUTeurs</span><span class="fut_fields">{% if not fut.effective_number_of_futers == None %}{{ fut.effective_number_of_futers }}{% else %}Non spécifié{% endif %}</span></p>
+	{% if fut.comments %}<p><span class="fut_labels">Commentaires</span><span class="fut_fields">{{ fut.comments }}</span></p>{% endif %}
+	<div id="sharing_space_actions">
+		<a href="#">Créer un dossier</a>
+		<span> - </span>
+		<a href="#">Ajouter un document</a>
+	</div>
+	<div id="sharing_space">
 		<ul id="tree" class="filetree">
 			{{ tree|safe }}
 		</ul>

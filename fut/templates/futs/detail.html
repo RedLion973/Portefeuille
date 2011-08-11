@@ -22,81 +22,129 @@
 		<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/fullcalendar.min.js"></script>
 		<script type='text/javascript'>
 			$(document).ready(function() {
-				$('#planning').fullCalendar({
-					header: {
-						left: 'prev,next today',
-						center: 'title',
-						right: 'month,basicWeek,basicDay'
-					},
-					editable: false,
-					height: 300,
-					firstDay: 1,
-					year:  {{ fut.scheduled_start_date|date:"Y" }},
-					month: {{ fut.scheduled_start_date|date:"n" }},
-					date: {{ fut.scheduled_start_date|date:"j" }},
-					monthNames: [
-						'Janvier',
-						'Février',
-						'Mars',
-						'Avril',
-						'Mai',
-						'Juin',
-						'Jullet',
-						'Août',
-						'Septembre',
-						'Octobre',
-						'Novembre',
-						'Décembre'
-					],
-					monthNamesShort: [
-						'Jan',
-						'Fév',
-						'Mar',
-						'Avr',
-						'Mai',
-						'Jui',
-						'Jul',
-						'Aoû',
-						'Sep',
-						'Oct',
-						'Nov',
-						'Déc'
-					],
-					dayNames: [
-						'Dimanche',
-						'Lundi',
-						'Mardi',
-						'Mercredi',
-						'Jeudi',
-						'Vendredi',
-						'Samedi'
-					],
-					dayNamesShort: [
-						'Dim',
-						'Lun',
-						'Mar',
-						'Mer',
-						'Jeu',
-						'Ven',
-						'Sam'
-					],
-					events: [
-						{
-							title: 'Planning prévisionnel du FUT',
-							backgroundColor: '#555555',
-							borderColor: '#555555',
-							start: new Date({{ fut.scheduled_start_date|date:"Y, n, j" }}),
-							end: new Date({{ fut.scheduled_end_date|date:"Y, n, j" }})
+				{% if fut.scheduled_start_date < fut.effective_start_date %}
+					min = new Date(
+						{{ fut.scheduled_start_date|date:"Y" }},
+						{{ fut.scheduled_start_date|date:"n" }} - 1,
+						{{ fut.scheduled_start_date|date:"j" }}
+					);
+				{% else %}
+					min = new Date(
+						{{ fut.effective_start_date|date:"Y" }},
+						{{ fut.effective_start_date|date:"n" }} - 1,
+						{{ fut.effective_start_date|date:"j" }}
+					);
+				{% endif %}
+				{% if fut.scheduled_end_date < fut.effective_end_date %}
+					max = new Date(
+						{{ fut.effective_end_date|date:"Y" }},
+						{{ fut.effective_end_date|date:"n" }} - 1,
+						{{ fut.effective_end_date|date:"j" }}
+					);
+				{% else %}
+					max = new Date(
+						{{ fut.scheduled_end_date|date:"Y" }},
+						{{ fut.scheduled_end_date|date:"n" }} - 1,
+						{{ fut.scheduled_end_date|date:"j" }}
+					);
+				{% endif %}
+				for (var i=0; new Date(min.getFullYear(), min.getMonth() + i, min.getDate()) <= max; i++) {
+					current = new Date(min.getFullYear(), min.getMonth() + i, min.getDate())
+					$('#planning').append('<div id="planning_' + i + '" style="width: 205px; float: left; margin-left: 10px;"></div>');
+					$('#planning_' + i).fullCalendar({
+						header: {
+							left: '',
+							center: 'title',
+							right: ''
 						},
-						{
-							title: 'Planning effectif du FUT',
-							backgroundColor: '#FF6600',
-							borderColor: '#FF6600',
-							start: new Date({{ fut.effective_start_date|date:"Y, n, j" }}),
-							end: new Date({{ fut.effective_end_date|date:"Y, n, j" }})
-						}
-					]
-				});
+						editable: false,
+						firstDay: 1,
+						height: 75,
+						weekMode: 'liquid',
+						year:  current.getFullYear(),
+						month: current.getMonth(),
+						date: current.getDate(),
+						monthNames: [
+							'Janvier',
+							'Février',
+							'Mars',
+							'Avril',
+							'Mai',
+							'Juin',
+							'Jullet',
+							'Août',
+							'Septembre',
+							'Octobre',
+							'Novembre',
+							'Décembre'
+						],
+						monthNamesShort: [
+							'Jan',
+							'Fév',
+							'Mar',
+							'Avr',
+							'Mai',
+							'Jui',
+							'Jul',
+							'Aoû',
+							'Sep',
+							'Oct',
+							'Nov',
+							'Déc'
+						],
+						dayNames: [
+							'Dimanche',
+							'Lundi',
+							'Mardi',
+							'Mercredi',
+							'Jeudi',
+							'Vendredi',
+							'Samedi'
+						],
+						dayNamesShort: [
+							'Dim',
+							'Lun',
+							'Mar',
+							'Mer',
+							'Jeu',
+							'Ven',
+							'Sam'
+						],
+						events: [
+							{
+								title: 'Prévisionnel',
+								backgroundColor: '#555555',
+								borderColor: '#555555',
+								start: new Date(
+									{{ fut.scheduled_start_date|date:"Y" }},
+									{{ fut.scheduled_start_date|date:"n" }} - 1,
+									{{ fut.scheduled_start_date|date:"j" }}
+								),
+								end: new Date(
+									{{ fut.scheduled_end_date|date:"Y" }},
+									{{ fut.scheduled_end_date|date:"n" }} - 1,
+									{{ fut.scheduled_end_date|date:"j" }}
+								)
+							},
+							{
+								title: 'Effectif',
+								backgroundColor: '#FF6600',
+								borderColor: '#FF6600',
+								start: new Date(
+									{{ fut.effective_start_date|date:"Y" }},
+									{{ fut.effective_start_date|date:"n" }} - 1,
+									{{ fut.effective_start_date|date:"j" }}
+								),
+								end: new Date(
+									{{ fut.effective_end_date|date:"Y" }},
+									{{ fut.effective_end_date|date:"n" }} - 1,
+									{{ fut.effective_end_date|date:"j" }}
+								)
+							}
+						]
+					});
+				};
+				$('#planning').append('<div style="clear: both;">&nbsp;</div>');
 			});
 		</script> 
 	{% endif %}
@@ -121,6 +169,7 @@
 	{% if fut.has_planning %}
 	<p><span class="fut_labels">Planning</span></p>
 	<div id="planning"></div>
+	<p><span class="fut_labels">Nombre de jours</span><span class="fut_fields">Prévisionnel : {{ scheduled_days }} (<span class="italic">Ouvrés : {{ scheduled_days_nw }}</span>)<br />Effectif : {{ effective_days }} (<span class="italic">Ouvrés : {{ effective_days_nw }}</span>)</span></p>
 	{% else %}
 		{% if fut.scheduled_start_date %}<p><span class="fut_labels">Date de début prévue</span><span class="fut_fields">{{ fut.scheduled_start_date }}</span></p>{% endif %}
 		{% if fut.scheduled_end_date %}<p><span class="fut_labels">Date de fin prévue</span><span class="fut_fields">{{ fut.scheduled_end_date }}</span></p>{% endif %}

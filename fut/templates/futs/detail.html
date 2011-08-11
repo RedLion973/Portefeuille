@@ -48,9 +48,19 @@
 						{{ fut.scheduled_end_date|date:"j" }}
 					);
 				{% endif %}
-				for (var i=0; new Date(min.getFullYear(), min.getMonth() + i, min.getDate()) <= max; i++) {
-					current = new Date(min.getFullYear(), min.getMonth() + i, min.getDate())
-					$('#planning').append('<div id="planning_' + i + '" style="width: 205px; float: left; margin-left: 10px;"></div>');
+				i = 0;
+				while(true) {
+					current_year = min.getFullYear();
+					current_month = min.getMonth() + i;
+					if(current_month > 11) {
+						current_month = 0
+						i = -min.getMonth();
+						current_year = parseInt(current_year) + 1;
+					}
+					current = new Date(current_year, current_month, min.getDate())
+					console.log(i);
+					console.log(max.getMonth());
+					$('#planning').append('<div id="planning_' + i + '" style="height: 380px; width: 205px; float: left; margin-left: 10px;"></div>');
 					$('#planning_' + i).fullCalendar({
 						header: {
 							left: '',
@@ -59,8 +69,8 @@
 						},
 						editable: false,
 						firstDay: 1,
-						height: 75,
 						weekMode: 'liquid',
+						height: 330,
 						year:  current.getFullYear(),
 						month: current.getMonth(),
 						date: current.getDate(),
@@ -143,6 +153,11 @@
 							}
 						]
 					});
+					if(current_month == max.getMonth()) {
+                                                console.log(current_month);
+                                                break;
+                                        }
+					i++;
 				};
 				$('#planning').append('<div style="clear: both;">&nbsp;</div>');
 			});

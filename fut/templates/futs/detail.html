@@ -58,8 +58,6 @@
 						current_year = parseInt(current_year) + 1;
 					}
 					current = new Date(current_year, current_month, min.getDate())
-					console.log(i);
-					console.log(max.getMonth());
 					$('#planning').append('<div id="planning_' + i + '" style="height: 380px; width: 205px; float: left; margin-left: 10px;"></div>');
 					$('#planning_' + i).fullCalendar({
 						header: {

@@ -177,11 +177,28 @@ class FUT(models.Model):
             return u''
     get_full_target_customers.short_description = u'Clients cibles'
     
-    def has_planning(self):
-        if self.scheduled_end_date and self.scheduled_start_date and self.effective_end_date and self.effective_start_date:
+    def has_prev_planning(self):
+        if self.scheduled_end_date and self.scheduled_start_date:
             return True
         else:
             return False
+    
+    def has_eff_planning(self):
+        if self.effective_end_date and self.effective_start_date:
+            return True
+        else:
+            return False
+    
+    def has_planning(self):
+        planning = 0
+        if self.has_eff_planning() == True and self.has_prev_planning() == True:
+            planning = 3
+        else:
+            if self.has_eff_planning() == True:
+                planning = 1
+            if self.has_prev_planning() == True:
+                planning = 2
+        return planning
 
     # Meta
     class Meta:

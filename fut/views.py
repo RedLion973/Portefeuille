@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, timedelta
 from django.views.generic import DetailView, ListView
 from FUTFactory.fut.models import FUT
 from FUTFactory.edm.models import Folder
@@ -27,26 +27,33 @@ class FUTDetailView(DetailView):
         tree += '</li>'
         return tree
     
+    def get_number_of_days(self, d1, d2):
+        days = 0
+        weekends = 0
+        while d1 + timedelta(days) <= d2:
+            d0 = d1 + timedelta(days)
+            if d0.weekday() > 4:
+                weekends += 1
+            days += 1
+        return {'number_of_days': days, 'number_of_working_days': days - weekends}
+    
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         space = self.object.sharing_doc_space
         tree = self.get_folders(space.id)
-        sd = 0
-        ed = 0
-        sd_no_weekend = 0
-        ed_no_weekend = 0
-        if self.object.has_planning:
-            s_daydiff = self.object.scheduled_end_date.weekday() - self.object.scheduled_start_date.weekday()
-            sd_no_weekend = ((self.object.scheduled_end_date - self.object.scheduled_start_date).days - s_daydiff) / 7 * 5 + min(s_daydiff, 5)
-            e_daydiff = self.object.effective_end_date.weekday() - self.object.effective_start_date.weekday()
-            ed_no_weekend = ((self.object.effective_end_date - self.object.effective_start_date).days - e_daydiff) / 7 * 5 + min(e_daydiff, 5)
-            ed = (self.object.effective_end_date - self.object.effective_start_date).days
-            sd = (self.object.scheduled_end_date - self.object.scheduled_start_date).days
         context.update({
-            'tree': tree,
-            'scheduled_days': sd,
-            'effective_days': ed,
-            'scheduled_days_nw': sd_no_weekend,
-            'effective_days_nw': ed_no_weekend
+            'tree': tree
         })
+        if self.object.has_prev_planning() == True:
+            s = self.get_number_of_days(self.object.scheduled_start_date, self.object.scheduled_end_date)
+            context.update({
+                'scheduled_days': s['number_of_days'],
+                'scheduled_days_nw': s['number_of_working_days']
+            })
+        if self.object.has_eff_planning() == True:
+            e = self.get_number_of_days(self.object.effective_start_date, self.object.effective_end_date)
+            context.update({
+                'effective_days': e['number_of_days'],
+                'effective_days_nw': e['number_of_working_days']
+            })
         return context

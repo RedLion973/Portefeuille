@@ -6,8 +6,8 @@
 }
 
 #planning {
-	margin-bottom: 1.1em;
-	margin-top: 0.4em;
+	margin-bottom: 0.5em;
+	margin-top: 0.7em;
 }
 
 #sharing_space_actions {
@@ -26,5 +26,9 @@
 	font-size: 1em;
 }
 .fc-widget-header {
-	font-size: 0.7em;
+	font-size: 0.9em;
+}
+
+.fc-day-number {
+	font-size: 0.8em;
 }

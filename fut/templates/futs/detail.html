@@ -9,7 +9,7 @@
 {% block extra_css %}
 	<link href="{{ STATIC_URL }}css/treeview.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{{ STATIC_URL }}css/fut_detail.css" rel="stylesheet" type="text/css" media="screen" />
-	{% if fut.has_planning %}
+	{% if fut.has_planning > 0 %}
 		<link href="{{ STATIC_URL }}css/fullcalendar.css" rel="stylesheet" type="text/css" media="screen" />
 	{% endif %}
 {% endblock %}
@@ -18,7 +18,7 @@
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.treeview.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/sharing_space.js"></script>
-	{% if fut.has_planning %}
+	{% if fut.has_planning > 0 %}
 		<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/fullcalendar.min.js"></script>
 		<script type='text/javascript'>
 			$(document).ready(function() {
@@ -58,7 +58,7 @@
 						current_year = parseInt(current_year) + 1;
 					}
 					current = new Date(current_year, current_month, min.getDate())
-					$('#planning').append('<div id="planning_' + i + '" style="height: 380px; width: 205px; float: left; margin-left: 10px;"></div>');
+					$('#planning').append('<div id="planning_' + i + '" style="min-height: 350px; width: 205px; float: left; margin-left: 10px;"></div>');
 					$('#planning_' + i).fullCalendar({
 						header: {
 							left: '',
@@ -176,18 +176,18 @@
 
 {% block content %}
 	<p><span class="fut_labels">Description</span><span class="fut_fields">{{ fut.description }}</span></p>
-	<p><span class="fut_labels">Type de FUT</span><span class="fut_fields">{% if not fut.fut_type == None %}{{ fut.fut_type }}{% else %}Non spécifié{% endif %}</span></p>
+	<p><span class="fut_labels">Type de FUT</span><span class="fut_fields">{% if not fut.fut_type == None %}{{ fut.fut_type }}{% else %}Non renseigné{% endif %}</span></p>
 	<p><span class="fut_labels">Domaine</span><span class="fut_fields">{{ fut.domain }}</span></p>
 	<p><span class="fut_labels">&Eacute;tat d'avancement;</span><span class="fut_fields">{{ fut.state.phase }}{% if fut.state.phase.name == 'Terminés' %} - <span class="italic">Conclusion : </span>{% else %} - <span class="italic">&Eacute;tape : </span>{% endif %}{{ fut.state }}</span></p>
-	{% if fut.has_planning %}
+	{% if fut.has_planning > 0 %}
 	<p><span class="fut_labels">Planning</span></p>
+	<span class="fut_fields">Nombre de jours prévisionnel : {{ scheduled_days }} (<span class="italic">Ouvrés : {{ scheduled_days_nw }}</span>)<br />Nombre de jours effectif : {{ effective_days }} (<span class="italic">Ouvrés : {{ effective_days_nw }}</span>)</span>
 	<div id="planning"></div>
-	<p><span class="fut_labels">Nombre de jours</span><span class="fut_fields">Prévisionnel : {{ scheduled_days }} (<span class="italic">Ouvrés : {{ scheduled_days_nw }}</span>)<br />Effectif : {{ effective_days }} (<span class="italic">Ouvrés : {{ effective_days_nw }}</span>)</span></p>
 	{% else %}
-		{% if fut.scheduled_start_date %}<p><span class="fut_labels">Date de début prévue</span><span class="fut_fields">{{ fut.scheduled_start_date }}</span></p>{% endif %}
-		{% if fut.scheduled_end_date %}<p><span class="fut_labels">Date de fin prévue</span><span class="fut_fields">{{ fut.scheduled_end_date }}</span></p>{% endif %}
-		{% if fut.effective_start_date %}<p><span class="fut_labels">Date de début effective</span><span class="fut_fields">{{ fut.effective_start_date }}</span></p>{% endif %}
-		{% if fut.effective_end_date %}<p><span class="fut_labels">Date de fin effective</span><span class="fut_fields">{{ fut.effective_end_date }}</span></p>{% endif %}
+	<p><span class="fut_labels">Date de début prévue</span><span class="fut_fields">{% if fut.scheduled_start_date %}{{ fut.scheduled_start_date }}{% else %}Non renseignée{% endif %}</span></p>
+	<p><span class="fut_labels">Date de fin prévue</span><span class="fut_fields">{% if fut.scheduled_end_date %}{{ fut.scheduled_end_date }}{% else %}Non renseignée{% endif %}</span></p>
+	<p><span class="fut_labels">Date de début effective</span><span class="fut_fields">{% if fut.effective_start_date %}{{ fut.effective_start_date }}{% else %}Non renseignée{% endif %}</span></p>
+	<p><span class="fut_labels">Date de fin effective</span><span class="fut_fields">{% if fut.effective_end_date %}{{ fut.effective_end_date }}{% else %}Non renseignée{% endif %}</span></p>
 	{% endif %}
 	<p><span class="fut_labels">Acteurs</span></p>
 	<table cellspacing="0" border="1" class="objects_list">
@@ -197,35 +197,35 @@
 				{% if not fut.release_manager == None %}
 				{{ fut.release_manager }}
 				{% else %}
-				Non spécifié
+				Non renseigné
 				{% endif %}
 			</td>
 			<td>
 				{% if not fut.leader == None %}
 				{{ fut.leader }}
 				{% else %}
-				Non spécifié
+				Non renseigné
 				{% endif %}
 			</td>
 			<td>
 				{% if not fut.support == None %}
 				{{ fut.support }}
 				{% else %}
-				Non spécifié
+				Non renseigné
 				{% endif %}
 			</td>
 			<td>
 				{% if not fut.role_ff == None %}
 				{{ fut.role_ff }}
 				{% else %}
-				Non spécifié
+				Non renseigné
 				{% endif %}
 			</td>
 		</tr>
 	</table>
 	<p><span class="fut_labels">Clients cibles</span><span class="fut_fields">{{ fut.get_full_target_customers }}</span></p>
-	<p><span class="fut_labels">Nombre souhaité de FUTeurs</span><span class="fut_fields">{% if not fut.expected_number_of_futers == None %}{{ fut.expected_number_of_futers }}{% else %}Non spécifié{% endif %}</span></p>
-	<p><span class="fut_labels">Nombre effectif de FUTeurs</span><span class="fut_fields">{% if not fut.effective_number_of_futers == None %}{{ fut.effective_number_of_futers }}{% else %}Non spécifié{% endif %}</span></p>
+	<p><span class="fut_labels">Nombre souhaité de FUTeurs</span><span class="fut_fields">{% if not fut.expected_number_of_futers == None %}{{ fut.expected_number_of_futers }}{% else %}Non renseigné{% endif %}</span></p>
+	<p><span class="fut_labels">Nombre effectif de FUTeurs</span><span class="fut_fields">{% if not fut.effective_number_of_futers == None %}{{ fut.effective_number_of_futers }}{% else %}Non renseigné{% endif %}</span></p>
 	{% if fut.comments %}<p><span class="fut_labels">Commentaires</span><span class="fut_fields">{{ fut.comments }}</span></p>{% endif %}
 	<div id="sharing_space_actions">
 		<a href="#">Créer un dossier</a>

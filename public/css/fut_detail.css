@@ -10,15 +10,15 @@
 	margin-top: 0.7em;
 }
 
-#sharing_space_actions {
-	margin-top: 2em; 
+.folder_links img {
+	vertical-align: middle; 
 }
 
 #sharing_space {
+	margin-top: 2em;
 	border: 1px dotted #555555;
 	padding: 0.5em;
 	clear: both;
-	font-size: 0.8em;
 }
 
 .fc-header-title h2 {

@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block extra_css %}
+	<link href="{{ STATIC_URL }}css/ui-futfactorytheme/jquery-ui-1.8.15.custom.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{{ STATIC_URL }}css/treeview.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{{ STATIC_URL }}css/fut_detail.css" rel="stylesheet" type="text/css" media="screen" />
 	{% if fut.has_planning > 0 %}
@@ -15,6 +16,7 @@
 {% endblock %}
 
 {% block extra_js %}
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.15.custom.min.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery.treeview.js"></script>
 	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/sharing_space.js"></script>
@@ -22,6 +24,7 @@
 		<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/fullcalendar.min.js"></script>
 		<script type='text/javascript'>
 			$(document).ready(function() {
+			{% if fut.has_planning == 3 %}
 				{% if fut.scheduled_start_date < fut.effective_start_date %}
 					min = new Date(
 						{{ fut.scheduled_start_date|date:"Y" }},
@@ -48,6 +51,31 @@
 						{{ fut.scheduled_end_date|date:"j" }}
 					);
 				{% endif %}
+			{% else %}
+				{% if fut.has_planning == 2 %}
+					min = new Date(
+                                                {{ fut.effective_start_date|date:"Y" }},
+                                                {{ fut.effective_start_date|date:"n" }} - 1,
+                                                {{ fut.effective_start_date|date:"j" }}
+                                        );
+					max = new Date(
+                                                {{ fut.effective_end_date|date:"Y" }},
+                                                {{ fut.effective_end_date|date:"n" }} - 1,
+                                                {{ fut.effective_end_date|date:"j" }}
+                                        );
+				{% else %}
+					min = new Date(
+                                                {{ fut.scheduled_start_date|date:"Y" }},
+                                                {{ fut.scheduled_start_date|date:"n" }} - 1,
+                                                {{ fut.scheduled_start_date|date:"j" }}
+                                        );
+					max = new Date(
+                                                {{ fut.scheduled_end_date|date:"Y" }},
+                                                {{ fut.scheduled_end_date|date:"n" }} - 1,
+                                                {{ fut.scheduled_end_date|date:"j" }}
+                                        );
+				{% endif %}
+			{% endif %}
 				i = 0;
 				while(true) {
 					current_year = min.getFullYear();
@@ -119,6 +147,7 @@
 							'Sam'
 						],
 						events: [
+							{% if fut.has_prev_planning %}
 							{
 								title: 'Prévisionnel',
 								backgroundColor: '#555555',
@@ -134,6 +163,8 @@
 									{{ fut.scheduled_end_date|date:"j" }}
 								)
 							},
+							{% endif %}
+							{% if fut.has_eff_planning %}
 							{
 								title: 'Effectif',
 								backgroundColor: '#FF6600',
@@ -149,6 +180,7 @@
 									{{ fut.effective_end_date|date:"j" }}
 								)
 							}
+							{% endif %}
 						]
 					});
 					if(current_month == max.getMonth()) {
@@ -181,14 +213,18 @@
 	<p><span class="fut_labels">&Eacute;tat d'avancement;</span><span class="fut_fields">{{ fut.state.phase }}{% if fut.state.phase.name == 'Terminés' %} - <span class="italic">Conclusion : </span>{% else %} - <span class="italic">&Eacute;tape : </span>{% endif %}{{ fut.state }}</span></p>
 	{% if fut.has_planning > 0 %}
 	<p><span class="fut_labels">Planning</span></p>
-	<span class="fut_fields">Nombre de jours prévisionnel : {{ scheduled_days }} (<span class="italic">Ouvrés : {{ scheduled_days_nw }}</span>)<br />Nombre de jours effectif : {{ effective_days }} (<span class="italic">Ouvrés : {{ effective_days_nw }}</span>)</span>
+	{% if scheduled_days%}
+	<span class="fut_fields">Nombre de jours prévisionnel : {{ scheduled_days }} (<span class="italic">Ouvrés : {{ scheduled_days_nw }}</span>)
+	{% endif %}
+	{% if effective_days%}
+	<br />Nombre de jours effectif : {{ effective_days }} (<span class="italic">Ouvrés : {{ effective_days_nw }}</span>)</span>
+	{% endif %}
 	<div id="planning"></div>
-	{% else %}
+	{% endif %}
 	<p><span class="fut_labels">Date de début prévue</span><span class="fut_fields">{% if fut.scheduled_start_date %}{{ fut.scheduled_start_date }}{% else %}Non renseignée{% endif %}</span></p>
 	<p><span class="fut_labels">Date de fin prévue</span><span class="fut_fields">{% if fut.scheduled_end_date %}{{ fut.scheduled_end_date }}{% else %}Non renseignée{% endif %}</span></p>
 	<p><span class="fut_labels">Date de début effective</span><span class="fut_fields">{% if fut.effective_start_date %}{{ fut.effective_start_date }}{% else %}Non renseignée{% endif %}</span></p>
 	<p><span class="fut_labels">Date de fin effective</span><span class="fut_fields">{% if fut.effective_end_date %}{{ fut.effective_end_date }}{% else %}Non renseignée{% endif %}</span></p>
-	{% endif %}
 	<p><span class="fut_labels">Acteurs</span></p>
 	<table cellspacing="0" border="1" class="objects_list">
 		<tr><th>Release Manager</th><th>Superviseur du FUT</th><th>Support sur le FUT</th><th>Rôle de la FUTFactory</th></tr>
@@ -227,14 +263,10 @@
 	<p><span class="fut_labels">Nombre souhaité de FUTeurs</span><span class="fut_fields">{% if not fut.expected_number_of_futers == None %}{{ fut.expected_number_of_futers }}{% else %}Non renseigné{% endif %}</span></p>
 	<p><span class="fut_labels">Nombre effectif de FUTeurs</span><span class="fut_fields">{% if not fut.effective_number_of_futers == None %}{{ fut.effective_number_of_futers }}{% else %}Non renseigné{% endif %}</span></p>
 	{% if fut.comments %}<p><span class="fut_labels">Commentaires</span><span class="fut_fields">{{ fut.comments }}</span></p>{% endif %}
-	<div id="sharing_space_actions">
-		<a href="#">Créer un dossier</a>
-		<span> - </span>
-		<a href="#">Ajouter un document</a>
-	</div>
 	<div id="sharing_space">
 		<ul id="tree" class="filetree">
 			{{ tree|safe }}
 		</ul>
 	</div>
+	<div id="sharing_dialog"></div>
 {% endblock %}

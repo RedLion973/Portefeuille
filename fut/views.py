@@ -1,7 +1,9 @@
+# -*- coding: UTF-8 -*- #
 from datetime import date, timedelta
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, CreateView
 from FUTFactory.fut.models import FUT
 from FUTFactory.edm.models import Folder
+from FUTFactory.settings import STATIC_URL
 
 class FUTListView(ListView):
     queryset = FUT.objects.order_by('state__phase')
@@ -12,11 +14,12 @@ class FUTListView(ListView):
 class FUTDetailView(DetailView):
     model = FUT
     context_object_name = 'fut'
-    template_name='futs/detail.html'
+    template_name = 'futs/detail.html'
     
     def get_folders(self, folder_id):
         f = Folder.objects.get(id=folder_id)
-        tree = '<li><span class="folder">' + f.name + '</span>'
+        #tree = '<li><span class="folder_links"><a href="{% url \'folder-new\' ' + f.id + ' %}">Ajouter un répertoire</a> | <a href="{% url \'{document-new\' ' + f.id + ' %}">Ajouter un document</a></span><span class="folder">' + f.name + '</span></span>'
+        tree = u'<li><span class="folder">' + f.name + ' | Ajouter <a class="folder_links" href="#"><img src="' + STATIC_URL + 'img/folder.png" alt="Add Folder" height="12px" width="12px" /></a> ou <a class="folder_links" href="#"><img src="' + STATIC_URL + 'img/file.png" alt="Add File" height="12px" width="12px" /></span>'
         if not f.documents.all().count() == 0:
             tree += '<ul>'
             for d in f.documents.all():

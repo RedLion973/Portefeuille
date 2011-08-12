@@ -195,9 +195,9 @@ class FUT(models.Model):
             planning = 3
         else:
             if self.has_eff_planning() == True:
-                planning = 1
-            if self.has_prev_planning() == True:
                 planning = 2
+            if self.has_prev_planning() == True:
+                planning = 1
         return planning
 
     # Meta

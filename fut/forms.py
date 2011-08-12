@@ -14,15 +14,31 @@ class FUTModelForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         leader = cleaned_data.get("leader")
         support = cleaned_data.get("support")
-        release_manager = cleaned_data.get("release_manager")
-        if leader and support and release_manager:
-            if leader == support or leader==release_manager or release_manager==support:
+	ssd = cleaned_data.get("scheduled_start_date")
+	sed = cleaned_data.get("scheduled_end_date")
+	esd = cleaned_data.get("effective_start_date")
+	eed = cleaned_data.get("effective_end_date")
+        if leader and support:
+            if leader == support:
                 msg = u"Ces champs doivent comporter des valeurs différentes."
                 self._errors["leader"] = self.error_class([msg])
                 self._errors["support"] = self.error_class([msg])
-                self._errors["release_manager"] = self.error_class([msg])
-                del cleaned_data["cc_myself"]
-                del cleaned_data["subject"]
+                del cleaned_data["leader"]
+                del cleaned_data["support"]
+	if ssd and sed:
+	    if sed < ssd:
+		msg = u"La date prévue de fin est antérieure à celle de début."
+                self._errors["scheduled_start_date"] = self.error_class([msg])
+                self._errors["scheduled_end_date"] = self.error_class([msg])
+                del cleaned_data["scheduled_start_date"]
+                del cleaned_data["scheduled_end_date"]
+	if esd and eed:
+            if eed < esd:
+                msg = u"La date effective de fin est antérieure à celle de début."
+                self._errors["effective_start_date"] = self.error_class([msg])
+                self._errors["effective_end_date"] = self.error_class([msg])
+                del cleaned_data["effective_start_date"]
+                del cleaned_data["effective_end_date"]
         return cleaned_data
     
     # Meta

@@ -13,7 +13,7 @@
 {% block contextual_actions_menu %}
 	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
 	<li><a href="{% url 'home' %}">Accueil</a></li>
-	<li><a href="{% url 'futs-index' page=1 %}">FUTs</a></li>
+	<li><a href="{% url 'futs-index' page=1 %}">Liste des FUTs</a></li>
 	{% if user.is_staff %}
 	<li><a href="/admin/" target="_blank">Administration</a></li>
 	{% endif %}	

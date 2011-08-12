@@ -14,7 +14,7 @@
 		<tr><th>Nom du FUT</th><th>Description</th><th>Superviseur du FUT</th></tr>
 		{% for fut in futs_list %}
 		<tr>
-			<td>{{ fut.name }}</td>
+			<td><a href="{{ fut.get_absolute_url }}">{{ fut.name }}</a></td>
 			<td>{{ fut.description }}</td>
 			<td>
 				{% if not fut.leader == None %}
@@ -28,6 +28,7 @@
 		<tr><td colspan="3" class="empty_list">Aucun FUT en cours</td></tr>
 		{% endfor %}
 	</table>
+	
 	{% else %}
 	<p>Bienvenue,</p>
 	<p>Veuillez vous authentifier afin d'accéder aux fonctionnalités de <span class="bold">gestion des FUTs</span>.</p>
@@ -37,7 +38,8 @@
 {% block contextual_actions_menu %}
 	{% if user.is_authenticated %}
 	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
-	<li><a href="{% url 'futs-index' page=1 %}">FUTs</a></li>
+	<li><a href="{% url 'futs-index' page=1 %}">Gestion des FUTs</a></li>
+	<li><a href="#">Synthèse</a></li>
 		{% if user.is_staff %}
 		<li><a href="/admin/" target="_blank">Administration</a></li>
 		{% endif %}		

@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*- #
-from datetime import date, timedelta
-from django.views.generic import DetailView, ListView, CreateView
+from datetime import timedelta
+from django.views.generic import DetailView, ListView
 from FUTFactory.fut.models import FUT
 from FUTFactory.edm.models import Folder
 from FUTFactory.settings import STATIC_URL

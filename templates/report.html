@@ -3,13 +3,41 @@
 
 {% block page_title %}Synthèse{% endblock %}
 
+{% block extra_css %}
+	<link href="{{ STATIC_URL }}css/ui-futfactorytheme/jquery-ui-1.8.15.custom.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block extra_js %}
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.15.custom.min.js"></script>
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/report.js"></script>
+{% endblock %}
+
 {% block content_title %}Synthèse{% endblock %}
 
 {% block content %}
 	<p>Sélectionner les FUTs à inclure dans la synthèse</p>
-	<form action="" method="get">
-        {{ filter.form.as_p }}
-        <input type="submit" />
+	<br />
+	<form id="filter_form" action="" method="get">
+		<table>
+			{% if filter.form.non_field_errors %}
+			<tr>
+			    <td colspan="2" class="error">{{ filter.form.non_field_errors }}</td>
+			</tr>
+			{% endif %}
+			{% for field in filter.form %}
+	        <tr>
+	        	{% if field.errors %}
+	        	<td class="error" colspan="2"{{ field.errors }}></td>
+	        	{% endif %}
+			    <td class="label">{{ field.label_tag }} : </td>
+			    <td class="field">{{ field }}</td>
+			</tr>
+		    {% endfor %}
+		    <tr>
+			    <td class="submit_button"><input type="submit" value="Recherche" /></td>
+			    <td class="submit_button"><input id="reset" type="reset" value="Réinitialiser" /></td>
+			</tr>
+		</table>
     </form>
 	<br />
 	<table cellspacing="0" border="1" class="objects_list">
@@ -39,16 +67,16 @@
 			<td>{{ fut.state }}</td>
 			<td>{{ fut.domain }}</td>
 			<td>{% if fut.fut_type %}{{ fut.fut_type }}{% else %}-{% endif %}</td>
-			<td>{% if fut.scheduled_start_date %}{{ fut.scheduled_start_date }}{% else %}-{% endif %}</td>
-			<td>{% if fut.scheduled_end_date %}{{ fut.scheduled_end_date }}{% else %}-{% endif %}</td>
-			<td>{% if fut.effective_start_date %}{{ fut.effective_start_date }}{% else %}-{% endif %}</td>
-			<td>{% if fut.effective_end_date %}{{ fut.effective_end_date }}{% else %}-{% endif %}</td>
+			<td>{% if fut.scheduled_start_date %}{{ fut.scheduled_start_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+			<td>{% if fut.scheduled_end_date %}{{ fut.scheduled_end_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+			<td>{% if fut.effective_start_date %}{{ fut.effective_start_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+			<td>{% if fut.effective_end_date %}{{ fut.effective_end_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
 			<td>{% if fut.release_manager %}{{ fut.release_manager }}{% else %}-{% endif %}</td>
 			<td>{% if fut.leader %}{{ fut.leader }}{% else %}-{% endif %}</td>
 			<td>{% if fut.support %}{{ fut.support }}{% else %}-{% endif %}</td>
 		</tr>
 		{% empty %}
-		<tr><td colspan="3" class="empty_list">Aucun FUT</td></tr>
+		<tr><td colspan="12" class="empty_list">Aucun FUT</td></tr>
 		{% endfor %}
 	</table>
 {% endblock %}

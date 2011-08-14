@@ -9,7 +9,7 @@
 {% block content_title %}Connexion{% endblock %}
 
 {% block content %}
-	<form method="post" action="{% url login %}">
+	<form id="login_form" method="post" action="{% url login %}">
 	{% csrf_token %}
 	<table>
 		{% if form.errors %}
@@ -29,7 +29,7 @@
 		    <td colspan="2" class="submit_button"><input type="submit" value="Valider" /></td>
 		</tr>
 	</table>
-	<input type="hidden" name="next" value="{% url home %}" />
+	<input type="hidden" name="next" value="{% if not next %}{% url home %}{% else %}{{ next }}{% endif %}" />
 	</form>
 {% endblock %}
 

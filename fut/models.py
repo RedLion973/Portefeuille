@@ -8,6 +8,8 @@ class Phase(models.Model):
     # Attributs
     name = models.CharField(u'Nom', max_length=650, unique=True)
     description = models.TextField(u'Description', blank=True)
+    rank = models.PositiveIntegerField(u'Rang', unique=True)
+    processing = models.BooleanField(u'Relève du traitement du FUT')
     
     # Méthodes
     def __unicode__(self):

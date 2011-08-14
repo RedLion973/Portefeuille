@@ -8,7 +8,7 @@ class FUTAdmin(admin.ModelAdmin):
     readonly_fields = ('sharing_doc_space',)
     fieldsets = [
         (None, {'fields': ['name','description'], 'classes': ['wide', 'extrapretty']}),
-        ('Planning', {'fields': ['scheduled_start_date', 'effective_start_date', 'scheduled_end_date', 'effective_end_date', 'state']}),
+        ('Planning', {'fields': ['scheduled_start_date', 'scheduled_end_date', 'effective_start_date', 'effective_end_date', 'state']}),
         ('Détails', {'fields': ['target_customers', 'expected_number_of_futers', 'effective_number_of_futers', 'fut_type', 'domain']}),
         ('Staff', {'fields': ['release_manager', 'leader', 'support', 'role_ff']}),
         (None, {'fields': ['comments','sharing_doc_space'], 'classes': ['wide']}),       
@@ -22,12 +22,16 @@ class FUTAdmin(admin.ModelAdmin):
 
 class StepAdmin(admin.ModelAdmin):
     list_display = ['phase', 'name']
+    
+class PhaseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'rank', 'processing']
+    ordering = ['rank', 'processing']
 
 class ActorAdmin(admin.ModelAdmin):
     list_display = ['actor_type', 'get_full_name']
 
 admin.site.register(FUT, FUTAdmin)
-admin.site.register(Phase)
+admin.site.register(Phase, PhaseAdmin)
 admin.site.register(Step, StepAdmin)
 admin.site.register(Role)
 admin.site.register(Type)

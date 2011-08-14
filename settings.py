@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*- #
 # Django settings for FUTFactory project.
 import os
 
@@ -122,6 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'FUTFactory.fut',
     'FUTFactory.edm',
+    'FUTFactory.lib.django_filters',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -153,4 +155,13 @@ LOGIN_URL = '/login/'
 # Directories for fixtures looked up
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR, 'fixtures'),
+)
+
+# Colors for each phase
+PHASE_COLORS = (
+    (u'Préparation', 'pale_blue'),
+    (u'En cours', 'tan'),
+    (u'Terminés', 'light_yellow'),
+    (u'A venir', 'light_green'),
+    (u'KO', 'gray25'),
 )

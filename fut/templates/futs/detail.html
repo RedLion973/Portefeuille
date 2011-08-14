@@ -150,8 +150,8 @@
 							{% if fut.has_prev_planning %}
 							{
 								title: 'Prévisionnel',
-								backgroundColor: '#555555',
-								borderColor: '#555555',
+								backgroundColor: '#FF6600',
+								borderColor: '#FF6600',
 								start: new Date(
 									{{ fut.scheduled_start_date|date:"Y" }},
 									{{ fut.scheduled_start_date|date:"n" }} - 1,
@@ -167,8 +167,8 @@
 							{% if fut.has_eff_planning %}
 							{
 								title: 'Effectif',
-								backgroundColor: '#FF6600',
-								borderColor: '#FF6600',
+								backgroundColor: '#555555',
+								borderColor: '#555555',
 								start: new Date(
 									{{ fut.effective_start_date|date:"Y" }},
 									{{ fut.effective_start_date|date:"n" }} - 1,

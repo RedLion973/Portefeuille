@@ -39,7 +39,7 @@
 	{% if user.is_authenticated %}
 	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
 	<li><a href="{% url 'futs-index' page=1 %}">Gestion des FUTs</a></li>
-	<li><a href="/report/">Synthèse</a></li>
+	<li><a href="{% url 'report' %}">Synthèse</a></li>
 		{% if user.is_staff %}
 		<li><a href="/admin/" target="_blank">Administration</a></li>
 		{% endif %}		

@@ -441,22 +441,32 @@ VQ1fYXV0aF91c2VyX2lkcQRLAXUu
     <object pk="1" model="fut.phase">
         <field type="CharField" name="name">Préparation</field>
         <field type="TextField" name="description"></field>
+        <field type="PositiveIntegerField" name="rank">1</field>
+        <field type="BooleanField" name="processing">True</field>
     </object>
     <object pk="2" model="fut.phase">
         <field type="CharField" name="name">En cours</field>
         <field type="TextField" name="description"></field>
+        <field type="PositiveIntegerField" name="rank">2</field>
+        <field type="BooleanField" name="processing">True</field>
     </object>
     <object pk="3" model="fut.phase">
         <field type="CharField" name="name">Terminés</field>
         <field type="TextField" name="description"></field>
+        <field type="PositiveIntegerField" name="rank">3</field>
+        <field type="BooleanField" name="processing">True</field>
     </object>
     <object pk="4" model="fut.phase">
         <field type="CharField" name="name">A venir</field>
         <field type="TextField" name="description"></field>
+        <field type="PositiveIntegerField" name="rank">4</field>
+        <field type="BooleanField" name="processing">False</field>
     </object>
     <object pk="5" model="fut.phase">
         <field type="CharField" name="name">KO</field>
         <field type="TextField" name="description"></field>
+        <field type="PositiveIntegerField" name="rank">5</field>
+        <field type="BooleanField" name="processing">False</field>
     </object>
     <object pk="1" model="fut.step">
         <field to="fut.phase" name="phase" rel="ManyToOneRel">1</field>

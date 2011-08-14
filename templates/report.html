@@ -1,0 +1,63 @@
+{% extends "main.html" %}
+{% load url from future %}
+
+{% block page_title %}Synthèse{% endblock %}
+
+{% block content_title %}Synthèse{% endblock %}
+
+{% block content %}
+	<p>Sélectionner les FUTs à inclure dans la synthèse</p>
+	<form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+	<br />
+	<table cellspacing="0" border="1" class="objects_list">
+		<tr>
+			<th rowspan="2">Nom</th>
+			<th colspan="2">Etat</th>
+			<th rowspan="2">Domaine</th>
+			<th rowspan="2">Type</th>
+			<th colspan="2">Planning Prévisionnel</th>
+			<th colspan="2">Planning Effectif</th>
+			<th rowspan="2">RM</th>
+			<th rowspan="2">Superviseur</th>
+			<th rowspan="2">Support</th>
+		</tr>
+		<tr>
+			<th>Phase</th>
+			<th>Etape</th>
+			<th>Debut</th>
+			<th>Fin</th>
+			<th>Debut</th>
+			<th>Fin</th>
+		</tr>
+		{% for fut in filter %}
+		<tr>
+			<td><a href="{{ fut.get_absolute_url }}" target="_blank">{{ fut.name }}</a></td>
+			<td>{{ fut.state.phase }}</td>
+			<td>{{ fut.state }}</td>
+			<td>{{ fut.domain }}</td>
+			<td>{% if fut.fut_type %}{{ fut.fut_type }}{% else %}-{% endif %}</td>
+			<td>{% if fut.scheduled_start_date %}{{ fut.scheduled_start_date }}{% else %}-{% endif %}</td>
+			<td>{% if fut.scheduled_end_date %}{{ fut.scheduled_end_date }}{% else %}-{% endif %}</td>
+			<td>{% if fut.effective_start_date %}{{ fut.effective_start_date }}{% else %}-{% endif %}</td>
+			<td>{% if fut.effective_end_date %}{{ fut.effective_end_date }}{% else %}-{% endif %}</td>
+			<td>{% if fut.release_manager %}{{ fut.release_manager }}{% else %}-{% endif %}</td>
+			<td>{% if fut.leader %}{{ fut.leader }}{% else %}-{% endif %}</td>
+			<td>{% if fut.support %}{{ fut.support }}{% else %}-{% endif %}</td>
+		</tr>
+		{% empty %}
+		<tr><td colspan="3" class="empty_list">Aucun FUT</td></tr>
+		{% endfor %}
+	</table>
+{% endblock %}
+
+{% block contextual_actions_menu %}
+	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
+	<li><a href="{% url 'home' %}">Retour à l'accueil</a></li>
+	<li><a href="{% url 'futs-index' page=1 %}">Gestion des FUTs</a></li>
+		{% if user.is_staff %}
+		<li><a href="/admin/" target="_blank">Administration</a></li>
+		{% endif %}	
+{% endblock %}

@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/', 'redirect_field_name': 'redirect_to'}, name="logout"),
     url(r'^futs-mangement/', include('FUTFactory.fut.urls')),
     url(r'^report/$', login_required(ReportView.as_view(template_name="report.html")), name="report"),
-    url(r'^rasterize/$', login_required(rasterize)),
+    url(r'^rasterize/$', rasterize),
     url(r'^admin/', include(admin.site.urls)),
 )

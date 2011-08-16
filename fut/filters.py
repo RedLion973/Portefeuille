@@ -1,7 +1,13 @@
+# -*- coding: UTF-8 -*- #
 from FUTFactory.lib import django_filters
 from FUTFactory.fut.models import FUT
 
 class FUTFilterSet(django_filters.FilterSet):            
+    scheduled_start_date = django_filters.CustomDateRangeFilter(label=u'Date de début prévue')
+    scheduled_end_date = django_filters.CustomDateRangeFilter(label=u'Date de fin prévue')
+    effective_start_date = django_filters.CustomDateRangeFilter(label=u'Date de début effective')
+    effective_end_date = django_filters.CustomDateRangeFilter(label=u'Date de fin effective')
+
     class Meta:
         model = FUT
         fields = [

@@ -131,8 +131,8 @@ def rasterize(request):
     rasterize_file = os.path.join(BASE_DIR, 'lib/phantomjs/rasterize.js')
     phantomjs_file = os.path.join(BASE_DIR, 'lib/phantomjs/phantomjs')
     output = os.path.join(BASE_DIR, 'public/img/generated/test000.png')
-    url = "http://www.green-conseil.com/"
-    Popen(['touch', output])
+    url = "http://www.blada.com/"
+    Popen(['echo', '', '>',output])
     Popen([phantomjs_file, '--load-images=yes', rasterize_file, url, output])
     response.write(open(output, "rb").read())
     return response

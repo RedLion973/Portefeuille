@@ -127,14 +127,13 @@ def report_to_excel(request):
 
 def rasterize(request):
     response = HttpResponse(mimetype="image/png")
-    response['Content-Disposition'] = 'attachment; filename="Test.png"'
+    response['Content-Disposition'] = 'attachment; filename="Test000.png"'
     rasterize_file = os.path.join(BASE_DIR, 'lib/phantomjs/rasterize.js')
     phantomjs_file = os.path.join(BASE_DIR, 'lib/phantomjs/phantomjs')
-    output = os.path.join(BASE_DIR, 'public/img/generated/test_2.png')
-    url = "http://lionsqueeze:8000/futs-mangement/futs/2/"
-    image_data = open(output, "w")
+    output = os.path.join(BASE_DIR, 'public/img/generated/test000.png')
+    url = "http://www.green-conseil.com/"
+    Popen(['touch', output])
     Popen([phantomjs_file, '--load-images=yes', rasterize_file, url, output])
-    image_data = open(output, "rb").read()
-    response.write(image_data)
+    response.write(open(output, "rb").read())
     return response
     

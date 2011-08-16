@@ -1,10 +1,13 @@
 # -*- coding: UTF-8 -*- #
 # Django settings for FUTFactory project.
 import os
+import sys 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 BASE_DIR = os.path.dirname(__file__)
+
+sys.path.append(os.path.join(BASE_DIR, 'lib'))
 
 ADMINS = (
     ('Ludovic LEGENDART', 'ludovic.legendart@green-conseil.com'),

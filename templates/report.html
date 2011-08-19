@@ -61,7 +61,7 @@
 			<th>Fin</th>
 		</tr>
 		{% for fut in filter %}
-		<tr>
+		<tr class="selectable">
 			<td><a href="{{ fut.get_absolute_url }}" target="_blank">{{ fut.name }}</a></td>
 			<td>{{ fut.state.phase }}</td>
 			<td>{{ fut.state }}</td>

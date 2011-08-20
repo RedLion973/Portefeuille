@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr"> 
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+    	<meta http-equiv="Content-Language" content="fr-fr" /> 
+	    <title>FUTFactory | {% block page_title %}{% endblock %}</title> 
+	    <meta name="ROBOTS" content="NONE" /> 
+	    <meta name="Copyright" content="GREEN Conseil - Ludovic LEGENDART" />  
+	    <meta name="description" content="FUT management Web application." /> 
+	    <link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" type="text/css" media="screen" />
+	    {% block extra_css %}{% endblock %}
+	    <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.6.2.min.js"></script>
+	    <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+	    {% block extra_js %}{% endblock %}
+	</head>
+  	<body>
+  		<div id="header" class="shadow">
+  			<div class="centered_div">
+				<img id="logo" src="{{ STATIC_URL }}img/futfactory_logo.png" alt="FUTFactory" height="80px" width="207px" />
+				<h1>Portefeuille</h1>
+			</div>
+		</div>
+		<div id="nav_bar" class="shadow">
+			<div class="centered_div">
+				<ul>
+					<li><a href="{% url home %}" title="Home"><img id="home_icon" src="{{ STATIC_URL }}img/home_icon.png" alt="Home" height="20px" width="20px" /></a></li>
+					{% block contextual_nav_bar %}{% endblock %}
+				</ul>
+			</div>
+		</div>
+  		<div id="wrapper" class="centered_div shadow_inner">
+  			<div id="contextual_actions_menu">
+				<ul>
+					{% block contextual_actions_menu %}{% endblock %}
+				</ul>
+			</div>
+  			<div id="main">
+				<h2>{% block content_title %}{% endblock %}</h2>
+				<br/>
+				<div id="content">
+					{% block content %}{% endblock %}
+				</div>
+  			</div>
+  		</div>
+  		<div id="footer">
+			<div id="footer_decorator" class="shadow_inner">
+				<p class="bold">&copy; 2011 - <span class="orange">FUTFactory</span></p>
+			</div>
+		</div>
+  	</body>
+</html>

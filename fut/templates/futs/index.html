@@ -1,0 +1,64 @@
+{% extends "fut_main.html" %}
+{% load url from future %}
+
+{% block page_title %}
+	{{ block.super }}
+	Liste des FUTS
+{% endblock %}
+
+{% block contextual_nav_bar %}
+	{{ block.super }}
+	<li>></li>
+	<li>Liste des FUTs</li>
+{% endblock %}
+
+{% block content_title %}
+	{{ block.super }}
+	Liste des FUTs
+{% endblock %}
+
+{% block content %}
+	<table cellspacing="0" border="1" class="objects_list">
+		<tr><th>Nom du FUT</th><th>Description</th><th>Etat d'avancement</th><th>Domaine</th><th>Type de FUT</th><th>Superviseur du FUT</th></tr>
+		{% for fut in futs_list %}
+		<tr>
+			<td><a href="{{ fut.get_absolute_url }}">{{ fut.name }}</a></td>
+			<td>{{ fut.description }}</td>
+			<td>{{ fut.state }}</td>
+			<td>{{ fut.domain }}</td>
+			<td>
+				{% if not fut.fut_type == None %}
+				{{ fut.fut_type }}
+				{% else %}
+				Non spécifié
+				{% endif %}
+			</td>
+			<td>
+				{% if not fut.leader == None %}
+				{{ fut.leader }}
+				{% else %}
+				Non spécifié
+				{% endif %}
+			</td>
+		</tr>
+		{% empty %}
+		<tr><td colspan="5" class="empty_list">Aucun FUT en cours</td></tr>
+		{% endfor %}
+	</table>
+	<br />
+    {% if is_paginated %}
+	<div class="pagination">
+	    <span class="page-links">
+	        {% if page_obj.has_previous %}
+	        <a href="{% url 'futs-index' page=page_obj.previous_page_number %}">previous</a>
+	        {% endif %}
+	        <span class="page-current">
+	            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+	        </span>
+	        {% if page_obj.has_next %}
+	        <a href="{% url 'futs-index' page=page_obj.next_page_number %}">next</a>
+	        {% endif %}
+	    </span>
+	</div>
+	{% endif %}
+{% endblock %}

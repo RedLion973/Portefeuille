@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% load url from future %}
+
+{% block page_title %}Accueil{% endblock %}
+
+{% block content_title %}Accueil{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+	<p>Bienvenue <span class="bold orange">{{ user.get_full_name }}</span>,</p>
+	<p>Les FUTs en cours</p>
+	<br />
+	<table cellspacing="0" border="1" class="objects_list">
+		<tr><th>Nom du FUT</th><th>Description</th><th>Superviseur du FUT</th></tr>
+		{% for fut in futs_list %}
+		<tr>
+			<td><a href="{{ fut.get_absolute_url }}">{{ fut.name }}</a></td>
+			<td>{{ fut.description }}</td>
+			<td>
+				{% if not fut.leader == None %}
+				{{ fut.leader }}
+				{% else %}
+				Aucun(e)
+				{% endif %}
+			</td>
+		</tr>
+		{% empty %}
+		<tr><td colspan="3" class="empty_list">Aucun FUT en cours</td></tr>
+		{% endfor %}
+	</table>
+	
+	{% else %}
+	<p>Bienvenue,</p>
+	<p>Veuillez vous authentifier afin d'accéder aux fonctionnalités de <span class="bold">gestion des FUTs</span>.</p>
+	{% endif %}
+{% endblock %}
+
+{% block contextual_actions_menu %}
+	{% if user.is_authenticated %}
+	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
+	<li><a href="{% url 'futs-index' page=1 %}">Gestion des FUTs</a></li>
+	<li><a href="{% url 'report' %}">Synthèse</a></li>
+		{% if user.is_staff %}
+		<li><a href="/admin/" target="_blank">Administration</a></li>
+		{% endif %}		
+	{% else %}
+	<li><a href="{% url 'login' %}">Connexion</a></li>
+	{% endif %}
+{% endblock %}

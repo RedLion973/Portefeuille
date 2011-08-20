@@ -1,0 +1,81 @@
+{% extends "main.html" %}
+{% load url from future %}
+
+{% block page_title %}Synthèse - Choix{% endblock %}
+
+{% block extra_css %}
+	<link href="{{ STATIC_URL }}css/ui-futfactorytheme/jquery-ui-1.8.15.custom.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block extra_js %}
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.15.custom.min.js"></script>
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/report_choice.js"></script>
+{% endblock %}
+
+{% block content_title %}Synthèse - Choix{% endblock %}
+
+{% block content %}
+	<p>Vous avez sélectionner <span class="bold">{{ nb_futs }}</span> FUT{{ nb_futs|pluralize }}.</p>
+	<br />
+	<p>Que souhaitez-vous faire ?</p>
+	<ul id="selection_actions">
+		<li><a href="{% url 'report' %}">Ajouter d'autres FUTs</a></li>
+		<li>Générer la synthèse complète</li>
+		<li><a href="{% url 'report-flush-selection' %}">Supprimer la sélection</a></li>
+		<li><a id="show_selection" href="#">Modifier la sélection</a></li>
+	</ul>
+	<br />
+	<form id="futs_selection_form" method="post" action="{% url 'report' %}">
+		{% csrf_token %}
+		<table cellspacing="0" border="1" class="objects_list">
+			<tr>
+				<th>Tout sélectionner</th>
+				<th rowspan="2">Nom</th>
+				<th colspan="2">Etat</th>
+				<th rowspan="2">Domaine</th>
+				<th rowspan="2">Type</th>
+				<th colspan="2">Planning Prévisionnel</th>
+				<th colspan="2">Planning Effectif</th>
+				<th rowspan="2">RM</th>
+				<th rowspan="2">Superviseur</th>
+				<th rowspan="2">Support</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" checked="checked" id="select_all" /></th>
+				<th>Phase</th>
+				<th>Etape</th>
+				<th>Debut</th>
+				<th>Fin</th>
+				<th>Debut</th>
+				<th>Fin</th>
+			</tr>
+			{% for fut in futs_list %}
+			<tr>
+				<td><input class="selection" name="futs" type="checkbox" checked="checked" value="{{ fut.id }}" /></td>
+				<td><a href="{{ fut.get_absolute_url }}" target="_blank">{{ fut.name }}</a></td>
+				<td>{{ fut.state.phase }}</td>
+				<td>{{ fut.state }}</td>
+				<td>{{ fut.domain }}</td>
+				<td>{% if fut.fut_type %}{{ fut.fut_type }}{% else %}-{% endif %}</td>
+				<td>{% if fut.scheduled_start_date %}{{ fut.scheduled_start_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+				<td>{% if fut.scheduled_end_date %}{{ fut.scheduled_end_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+				<td>{% if fut.effective_start_date %}{{ fut.effective_start_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+				<td>{% if fut.effective_end_date %}{{ fut.effective_end_date|date:"d/m/Y" }}{% else %}-{% endif %}</td>
+				<td>{% if fut.release_manager %}{{ fut.release_manager }}{% else %}-{% endif %}</td>
+				<td>{% if fut.leader %}{{ fut.leader }}{% else %}-{% endif %}</td>
+				<td>{% if fut.support %}{{ fut.support }}{% else %}-{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		<div class="submit_button"><input id="select_fut" type="submit" value="Mettre à jour" /></div>
+	</form>
+{% endblock %}
+
+{% block contextual_actions_menu %}
+	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
+	<li><a href="{% url 'home' %}">Retour à l'accueil</a></li>
+	<li><a href="{% url 'futs-index' page=1 %}">Gestion des FUTs</a></li>
+		{% if user.is_staff %}
+		<li><a href="/admin/" target="_blank">Administration</a></li>
+		{% endif %}	
+{% endblock %}

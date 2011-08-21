@@ -1,10 +1,11 @@
 # -*- coding: UTF-8 -*- #
-from datetime import date
+from datetime import date, datetime
 import os
 from subprocess import Popen
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.utils.encoding import force_unicode
 from FUTFactory.fut.models import FUT, Domain, Phase, Step
 from FUTFactory.lib.xlwt import *
 from FUTFactory.settings import PHASE_COLORS, BASE_DIR
@@ -21,7 +22,6 @@ class HomeView(TemplateView):
 class ReportView(TemplateView):
     def post(self, request):
         futs_ids = self.request.POST.getlist('futs')
-        print futs_ids
         futs_list = []
         for fut_id in futs_ids:
             futs_list.append(FUT.objects.get(id=fut_id))
@@ -49,32 +49,98 @@ class ReportChoiceView(TemplateView):
         self.request.session['futs_for_report'] = futs_list
         return HttpResponseRedirect('/report/choice/')
     
-    def get_context_data(self, **kwargs):
-        context = super(ReportChoiceView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
         if not 'futs_for_report' in self.request.session:
             messages.warning(self.request, u'Vous devez d\'abord sélectionner des FUTs à inclure dans la synthèse')
-            return HttpResponseRedirect('/report/choice/')
-        else:            
+            return HttpResponseRedirect('/report/')
+        else:
+            return TemplateView.get(self, request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super(ReportChoiceView, self).get_context_data(**kwargs)           
+        context.update({
+            'nb_futs': len(self.request.session['futs_for_report']),
+            'futs_list': self.request.session['futs_for_report']
+        })
+        return context
+
+class ReportGenerationView(TemplateView):
+    def render_report_table_as_html(self, request):
+        ids = []
+        for f in request.session['futs_for_report']:
+            ids.append(f.id) 
+        report_table = '<table id="report_table" cellspacing="0" border="1">'
+        report_table += '<tr>' + '<th class="report_title" colspan="4" rowspan="2">Synthèse Activités FUT Factory</th>' + '<th class="report_header" colspan="' + str(Domain.objects.all().count() * 3) + '" >Domaines</th>' + '</tr>'
+        report_table += '<tr>'
+        for domain in Domain.objects.all():
+            report_table += '<th class="report_header orange" colspan="3">' + str(domain.name) + '</th>'
+        report_table += '</tr>'
+        report_table += '<tr><th class="report_header orange" colspan="2">Phase</th><th class="report_header orange" colspan="2">Etape</th>'
+        for domain in Domain.objects.all():
+            report_table += '<th class="report_header">Nb</th><th class="report_header">FUTs</th><th class="report_header">RM</th>'
+        report_table += '</tr>'
+        print_total = 1
+        for phase in Phase.objects.order_by('rank', 'processing'):
+            if not phase.processing and print_total == 1:
+                report_table += '<tr>' + '<th class="report_title" colspan="3">TOTAL des FUTs pris en charge/traités</th><th>' + str(len(ids)) + '</th>'
+                for domain in Domain.objects.all():
+                    report_table += '<th colspan="3">' + str(FUT.objects.filter(id__in=ids, domain=domain).count()) + '</th>'
+                report_table += '</tr>'
+                print_total = 0   
+            report_table += '<tr>'
+            report_table += '<td class="bold" rowspan="' + str(Step.objects.filter(phase=phase).count()) + '" style="background-color: '
+            for p in PHASE_COLORS:
+                if phase.name == p[0]:
+                    report_table += p[2]
+            report_table += ';">' + str(phase) + '</td><td class="orange bold" rowspan="' + str(Step.objects.filter(phase=phase).count()) + '">' + str(FUT.objects.filter(id__in=ids, state__phase=phase).count()) + '</td>'
+            step_count = 0
+            for step in Step.objects.filter(phase=phase):
+                step_count += 1
+                if step_count > 1:
+                    report_table += '<tr>'
+                report_table += '<td class="step_name">' + str(step) + '</td><td class="bold">' + str(FUT.objects.filter(id__in=ids, state=step).count()) + '</td>'
+                for domain in Domain.objects.all():
+                    domain_str = ''
+                    rm_str = ''
+                    domain_count_max = FUT.objects.filter(id__in=ids, state=step, domain=domain).count()
+                    domain_count = 0
+                    for fut in FUT.objects.filter(id__in=ids, state=step, domain=domain):
+                        domain_count += 1
+                        domain_str += str(fut.name)
+                        if fut.release_manager:
+                            rm_str += str(fut.release_manager)
+                        else:
+                            rm_str += '-'
+                        if domain_count < domain_count_max:
+                            domain_str += '\n'
+                            rm_str += '\n'
+                    report_table += '<td class="bold orange">' + str(domain_count_max) + '</td><td>' + domain_str + '</td><td>' + rm_str + '</td>'
+                report_table += '</tr>'
+        report_table += '</table>'
+        return force_unicode(report_table)
+
+    def get_context_data(self, **kwargs):
+        context = super(ReportGenerationView, self).get_context_data(**kwargs)
+        if not 'futs_for_report' in self.request.session:
+            messages.warning(self.request, u'Vous devez d\'abord sélectionner des FUTs à inclure dans la synthèse')
+            return HttpResponseRedirect('/report/')
+        else:
             context.update({
-                'nb_futs': len(self.request.session['futs_for_report']),
-                'futs_list': self.request.session['futs_for_report']
+                'report_table': self.render_report_table_as_html(self.request)
             })
             return context
-        
-def flush_fut_selection(request):
-    del request.session['futs_for_report']
-    messages.info(request, u'La sélection a été vidée !')
-    return HttpResponseRedirect('/report/')
+
+def flush_selection_view(request):
+        del request.session['futs_for_report']
+        messages.info(request, u'La sélection a été vidée !')
+        return HttpResponseRedirect('/report/')
     
 def report_to_excel(request):
     d = date.today()
     response = HttpResponse(mimetype="application/ms-excel")
     response['Content-Disposition'] = 'attachment; filename="Synthèse_' + str(d) + '.xls"'
-    
     ezxf = easyxf
-    
     wb = Workbook(encoding='utf-8')
-    
     ws = wb.add_sheet(u'Synthèse')
     for i in range(0, 14):
         ws.write(0, i, '')
@@ -158,21 +224,18 @@ def report_to_excel(request):
         ws.write_merge(r1=last_row, c1=cursor[1], r2=cursor[0] - 1, c2=cursor[1], label=phase.name.upper(), style=ezxf('font: bold on, colour_index black; align: wrap on, vert center, horiz center, rota 90; borders: top medium, bottom medium, left medium, right thin' + pattern))
         last_row = cursor[0]
         count_processing += count_phase
-    
-    ws2 = wb.add_sheet(u'Planning')
-    ws2.write_merge(r1=0, c1=0, r2=3, c2=9, label="A FAIRE", style=ezxf('font: bold on; align: wrap on, vert centre, horiz center'))
-
     wb.save(response)
     return response
 
 def rasterize(request):
+    d = datetime.now()
     response = HttpResponse(mimetype="image/png")
-    response['Content-Disposition'] = 'attachment; filename="Test000.png"'
+    response['Content-Disposition'] = 'attachment; filename="Synthèse_' + str(d) + '.png"'
     rasterize_file = os.path.join(BASE_DIR, 'lib/phantomjs/rasterize.js')
     phantomjs_file = os.path.join(BASE_DIR, 'lib/phantomjs/phantomjs')
-    output = os.path.join(BASE_DIR, 'public/img/generated/test000.png')
-    url = "http://www.blada.com/"
-    Popen(['echo', '', '>',output])
+    output = os.path.join(BASE_DIR, 'public/img/generated/report_' + str(request.user.id) + '_' + str(d) + '.png')
+    url = 'http://' + request.META['SERVER_NAME'] + ':' + request.META['SERVER_PORT'] + "/report/choice/"
+    Popen(['touch', output])
     Popen([phantomjs_file, '--load-images=yes', rasterize_file, url, output])
     response.write(open(output, "rb").read())
     return response

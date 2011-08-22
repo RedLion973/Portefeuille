@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+{% load url from future %}
+
+{% block page_title %}Synthèse - Prévisualisation{% endblock %}
+
+{% block extra_css %}
+	<link href="{{ STATIC_URL }}css/ui-futfactorytheme/jquery-ui-1.8.15.custom.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="{{ STATIC_URL }}css/report.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block extra_js %}
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.15.custom.min.js"></script>
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/report_generation.js"></script>
+{% endblock %}
+
+{% block content_title %}Synthèse - Prévisualisation{% endblock %}
+
+{% block content %}
+	<br />
+	<br />
+	{{ report_table|safe }}
+	<br />
+	<ul id="selection_actions">
+		<li><a id="export" href="{% url 'rasterize' %}">Exporter</a></li>
+		<li><a href="{% url 'report' %}">Ajouter d'autres FUTs</a></li>
+		<li><a href="{% url 'report-flush-selection' %}">Supprimer la sélection</a></li>
+	</ul>
+{% endblock %}
+
+{% block contextual_actions_menu %}
+	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
+	<li><a href="{% url 'home' %}">Retour à l'accueil</a></li>
+	<li><a href="{% url 'futs-index' page=1 %}">Gestion des FUTs</a></li>
+		{% if user.is_staff %}
+		<li><a href="/admin/" target="_blank">Administration</a></li>
+		{% endif %}	
+{% endblock %}

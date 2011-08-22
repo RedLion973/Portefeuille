@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+{% load url from future %}
+
+{% block page_title %}Synthèse - Téléchargement{% endblock %}
+
+{% block extra_css %}
+	<link href="{{ STATIC_URL }}css/ui-futfactorytheme/jquery-ui-1.8.15.custom.css" rel="stylesheet" type="text/css" media="screen" />
+{% endblock %}
+
+{% block extra_js %}
+	<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.15.custom.min.js"></script>
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function() {
+			$('#reload').click(function() {
+				location.reload();
+				return false;
+			});
+			$('#report_actions li').button();
+		});
+	</script>
+{% endblock %}
+
+{% block content_title %}Synthèse - Téléchargement{% endblock %}
+
+{% block content %}
+	<p>Pour enregistrer l'image faire : <span class="orange">Click Droit</span> puis <span class="orange">Enregistrer Sous</span>.</p>
+	<img src="{{ STATIC_URL }}{{ download_file }}" width="600" />
+	<br />
+	<p>Si l'image ne s'affiche pas, rafraichissez la page ici : <a href="#" id="reload">Rafraichir</a></p>
+	<br />
+	<ul id="report_actions">
+		<li><a href="{% url 'report' %}">Ajouter d'autres FUTs</a></li>
+		<li><a href="{% url 'report-flush-selection' %}">Supprimer la sélection</a></li>
+	<ul>
+{% endblock %}
+
+{% block contextual_actions_menu %}
+	<li><a href="{% url 'logout' %}">Déconnexion</a></li>
+{% endblock %}

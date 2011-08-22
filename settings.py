@@ -152,6 +152,9 @@ LOGGING = {
     }
 }
 
+# Message Storage settings
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 # Login URL
 LOGIN_URL = '/login/'
 
@@ -162,9 +165,9 @@ FIXTURE_DIRS = (
 
 # Colors for each phase
 PHASE_COLORS = (
-    (u'Préparation', 'pale_blue'),
-    (u'En cours', 'tan'),
-    (u'Terminés', 'light_yellow'),
-    (u'A venir', 'light_green'),
-    (u'KO', 'gray25'),
+    (u'Préparation', 'pale_blue', '#C0D8F0'),
+    (u'En cours', 'tan', '#FCDFBF'),
+    (u'Terminés', 'light_yellow', '#FFFFCF'),
+    (u'A venir', 'light_green', '#EBFFC6'),
+    (u'KO', 'gray25', '#CCCCCC'),
 )

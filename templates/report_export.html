@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="{{ STATIC_URL }}css/report.css" rel="stylesheet" type="text/css" media="screen" />
+		<style>
+			body {
+				background-color: #FFFFFF;
+			}
+		</style>
+	</head>
+	<body>
+		{{ report_table|safe }}
+	</body>
+</html>

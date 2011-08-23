@@ -18,6 +18,6 @@ urlpatterns = patterns('',
     url(r'^report/export/$', login_required(ReportGenerationView.as_view(template_name="report_export.html")), name="report-export"),
     url(r'^report/rasterize/$', login_required(rasterize_info)),
     url(r'^report/download/$', login_required(ReportDownloadView.as_view(template_name="report_download.html"))),
-    url(r'^rasterize/$', login_required(rasterize)),
+    url(r'^rasterize/$', login_required(rasterize), name="rasterize"),
     url(r'^admin/', include(admin.site.urls)),
 )

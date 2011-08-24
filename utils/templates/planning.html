@@ -1,0 +1,40 @@
+<table class="planning" cellspacing="0" border="1">
+	<tr>
+		<th>FUTs</td>
+		{% for month in planning_headers %}
+		<th colspan="{{ month.days|length }}">{{ month.name }} - {{ month.year }}</th>
+		{% endfor %}
+	</tr>
+	{% for fut in futs_list %}
+		{% if fut.rowspan == 2 %}
+		<tr>
+			<th rowspan="{{ fut.rowspan }}">{{ fut.name }}</th>
+			{% for month in planning_headers %}
+				{% for day in month.days %}
+				<td {% if fut.prev_start_date <= day and fut.prev_end_date >= day %}class="prev"{% endif %}>&nbsp;</td>
+				{% endfor %}
+			{% endfor %}
+		</tr>
+		<tr>
+			{% for month in planning_headers %}
+				{% for day in month.days %}
+				<td {% if fut.eff_start_date <= day and fut.eff_end_date >= day %}class="eff"{% endif %}>&nbsp;</td>
+				{% endfor %}
+			{% endfor %}
+		</tr>
+		{% else %}
+		<tr>
+			<th rowspan="{{ fut.rowspan }}">{{ fut.name }}</th>
+			{% for month in planning_headers %}
+				{% for day in month.days %}
+					{% if fut.planning == 0 %}
+					<td {% if fut.prev_start_date <= day and fut.prev_end_date >= day %}class="prev"{% endif %}>&nbsp;</td>
+					{% else %}
+					<td {% if fut.eff_start_date <= day and fut.eff_end_date >= day %}class="eff"{% endif %}>&nbsp;</td>
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</tr>
+		{% endif %}
+	{% endfor %}
+</table>

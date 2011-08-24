@@ -11,3 +11,19 @@
 #report_table td.step_name {
 	text-align: left;
 }
+
+.prev {
+	background-color: #FF6600;
+}
+
+.eff {
+	background-color: #777777;
+}
+
+.planning {
+	font-size: 0.7em;
+	padding: 0;
+}
+.planning td {
+	padding: 0.1em;
+}

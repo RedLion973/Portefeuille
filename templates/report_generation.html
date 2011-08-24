@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load url from future %}
+{% load planning %}
 
 {% block page_title %}Synthèse - Prévisualisation{% endblock %}
 
@@ -19,6 +20,11 @@
 	<br />
 	<br />
 	{{ report_table|safe }}
+	<br />
+	<ul>
+		<li id="show_planning"><a href="#">Afficher le planning</a></li>
+	</ul>
+	<div id="modal_planning">{% planning futs_list %}</div>
 	<br />
 	<ul id="selection_actions">
 		<li><a id="export" href="{% url 'rasterize' %}">Exporter</a></li>

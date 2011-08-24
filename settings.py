@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'FUTFactory.fut',
     'FUTFactory.edm',
+    'FUTFactory.utils',
     'FUTFactory.lib.django_filters',
 )
 

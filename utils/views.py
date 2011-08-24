@@ -127,7 +127,8 @@ class ReportGenerationView(TemplateView):
             return HttpResponseRedirect('/report/')
         else:
             context.update({
-                'report_table': self.render_report_table_as_html(self.request)
+                'report_table': self.render_report_table_as_html(self.request),
+                'futs_list': self.request.session['futs_for_report']
             })
             return context
 

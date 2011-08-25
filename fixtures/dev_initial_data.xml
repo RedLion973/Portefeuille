@@ -5,16 +5,6 @@
         <field type="CharField" name="app_label">fut</field>
         <field type="CharField" name="model">actor</field>
     </object>
-    <object pk="5" model="contenttypes.contenttype">
-        <field type="CharField" name="name">content type</field>
-        <field type="CharField" name="app_label">contenttypes</field>
-        <field type="CharField" name="model">contenttype</field>
-    </object>
-    <object pk="19" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Document</field>
-        <field type="CharField" name="app_label">edm</field>
-        <field type="CharField" name="model">document</field>
-    </object>
     <object pk="13" model="contenttypes.contenttype">
         <field type="CharField" name="name">Domaine de FUT</field>
         <field type="CharField" name="app_label">fut</field>
@@ -25,15 +15,40 @@
         <field type="CharField" name="app_label">fut</field>
         <field type="CharField" name="model">step</field>
     </object>
-    <object pk="20" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Fichier</field>
-        <field type="CharField" name="app_label">edm</field>
-        <field type="CharField" name="model">file</field>
-    </object>
     <object pk="17" model="contenttypes.contenttype">
         <field type="CharField" name="name">FUT</field>
         <field type="CharField" name="app_label">fut</field>
         <field type="CharField" name="model">fut</field>
+    </object>
+    <object pk="9" model="contenttypes.contenttype">
+        <field type="CharField" name="name">Phase du process</field>
+        <field type="CharField" name="app_label">fut</field>
+        <field type="CharField" name="model">phase</field>
+    </object>
+    <object pk="11" model="contenttypes.contenttype">
+        <field type="CharField" name="name">Rôle de la FUTFactory</field>
+        <field type="CharField" name="app_label">fut</field>
+        <field type="CharField" name="model">role</field>
+    </object>
+    <object pk="15" model="contenttypes.contenttype">
+        <field type="CharField" name="name">Type d'acteur du FUT</field>
+        <field type="CharField" name="app_label">fut</field>
+        <field type="CharField" name="model">actortype</field>
+    </object>
+    <object pk="12" model="contenttypes.contenttype">
+        <field type="CharField" name="name">Type de FUT</field>
+        <field type="CharField" name="app_label">fut</field>
+        <field type="CharField" name="model">type</field>
+    </object>
+    <object pk="14" model="contenttypes.contenttype">
+        <field type="CharField" name="name">Type de clients cibles du FUT</field>
+        <field type="CharField" name="app_label">fut</field>
+        <field type="CharField" name="model">targetcustomerstype</field>
+    </object>
+    <object pk="5" model="contenttypes.contenttype">
+        <field type="CharField" name="name">content type</field>
+        <field type="CharField" name="app_label">contenttypes</field>
+        <field type="CharField" name="model">contenttype</field>
     </object>
     <object pk="2" model="contenttypes.contenttype">
         <field type="CharField" name="name">group</field>
@@ -55,21 +70,6 @@
         <field type="CharField" name="app_label">auth</field>
         <field type="CharField" name="model">permission</field>
     </object>
-    <object pk="9" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Phase du process</field>
-        <field type="CharField" name="app_label">fut</field>
-        <field type="CharField" name="model">phase</field>
-    </object>
-    <object pk="18" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Répertoire</field>
-        <field type="CharField" name="app_label">edm</field>
-        <field type="CharField" name="model">folder</field>
-    </object>
-    <object pk="11" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Rôle de la FUTFactory</field>
-        <field type="CharField" name="app_label">fut</field>
-        <field type="CharField" name="model">role</field>
-    </object>
     <object pk="6" model="contenttypes.contenttype">
         <field type="CharField" name="name">session</field>
         <field type="CharField" name="app_label">sessions</field>
@@ -80,21 +80,6 @@
         <field type="CharField" name="app_label">sites</field>
         <field type="CharField" name="model">site</field>
     </object>
-    <object pk="15" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Type d'acteur du FUT</field>
-        <field type="CharField" name="app_label">fut</field>
-        <field type="CharField" name="model">actortype</field>
-    </object>
-    <object pk="14" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Type de clients cibles du FUT</field>
-        <field type="CharField" name="app_label">fut</field>
-        <field type="CharField" name="model">targetcustomerstype</field>
-    </object>
-    <object pk="12" model="contenttypes.contenttype">
-        <field type="CharField" name="name">Type de FUT</field>
-        <field type="CharField" name="app_label">fut</field>
-        <field type="CharField" name="model">type</field>
-    </object>
     <object pk="3" model="contenttypes.contenttype">
         <field type="CharField" name="name">user</field>
         <field type="CharField" name="app_label">auth</field>
@@ -103,100 +88,13 @@
     <object pk="2f7cdd8e8c7a769cf1961f3758de0dcf" model="sessions.session">
         <field type="TextField" name="session_data">MmZlZDJhMzUzMjdlNjg2Zjk0ODhmMWRmMDcxYmNhNTg4OGNhNjgxOTqAAn1xAShVEl9hdXRoX3Vz
 ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
-VQ1fYXV0aF91c2VyX2lkcQRLAXUu</field>
-        <field type="DateTimeField" name="expire_date">2011-08-19 01:33:48</field>
-    </object>
-    <object pk="c1a77db4105bd80b772bff27364e6dd5" model="sessions.session">
-        <field type="TextField" name="session_data">MTMyNDUzYWRlODBjM2Q4ZjFjNzA1NDg3Yzc5YjEyZWJjZjJlZTNkZTqAAn1xAShVD2Z1dHNfZm9y
-X3JlcG9ydF1VDV9hdXRoX3VzZXJfaWSKAQFVEl9hdXRoX3VzZXJfYmFja2VuZFUpZGphbmdvLmNv
-bnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmR1Lg==
+VQ1fYXV0aF91c2VyX2lkcQRLAXUu
 </field>
-        <field type="DateTimeField" name="expire_date">2011-09-08 00:25:26</field>
+        <field type="DateTimeField" name="expire_date">2011-08-19 01:33:48</field>
     </object>
     <object pk="1" model="sites.site">
         <field type="CharField" name="domain">example.com</field>
         <field type="CharField" name="name">example.com</field>
-    </object>
-    <object pk="47" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:25:25</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">1</field>
-        <field type="CharField" name="object_repr">ludovic.legendart</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">2</field>
-        <field type="TextField" name="change_message">Modifié username, first_name, last_name et groups.</field>
-    </object>
-    <object pk="46" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:25:23</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">2</field>
-        <field type="TextField" name="object_id">2</field>
-        <field type="CharField" name="object_repr">Administrateurs</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">1</field>
-        <field type="TextField" name="change_message"></field>
-    </object>
-    <object pk="45" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:24:51</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">4</field>
-        <field type="CharField" name="object_repr">julie.pellezeau</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">2</field>
-        <field type="TextField" name="change_message">Modifié first_name, last_name, email, is_staff et groups.</field>
-    </object>
-    <object pk="44" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:24:14</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">4</field>
-        <field type="CharField" name="object_repr">julie.pellezeau</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">1</field>
-        <field type="TextField" name="change_message"></field>
-    </object>
-    <object pk="43" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:23:52</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">3</field>
-        <field type="CharField" name="object_repr">isabelle.cambusier</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">2</field>
-        <field type="TextField" name="change_message">Modifié first_name, last_name, email, is_staff et groups.</field>
-    </object>
-    <object pk="42" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:23:24</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">3</field>
-        <field type="CharField" name="object_repr">isabelle.cambusier</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">1</field>
-        <field type="TextField" name="change_message"></field>
-    </object>
-    <object pk="41" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:23:05</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">2</field>
-        <field type="CharField" name="object_repr">serge.rocco</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">2</field>
-        <field type="TextField" name="change_message">Modifié first_name, last_name, email, is_staff et groups.</field>
-    </object>
-    <object pk="40" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:22:46</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">3</field>
-        <field type="TextField" name="object_id">2</field>
-        <field type="CharField" name="object_repr">serge.rocco</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">1</field>
-        <field type="TextField" name="change_message"></field>
-    </object>
-    <object pk="39" model="admin.logentry">
-        <field type="DateTimeField" name="action_time">2011-08-25 00:22:19</field>
-        <field to="auth.user" name="user" rel="ManyToOneRel">1</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">2</field>
-        <field type="TextField" name="object_id">1</field>
-        <field type="CharField" name="object_repr">FUT Factory</field>
-        <field type="PositiveSmallIntegerField" name="action_flag">1</field>
-        <field type="TextField" name="change_message"></field>
     </object>
     <object pk="38" model="admin.logentry">
         <field type="DateTimeField" name="action_time">2011-08-05 01:48:12</field>
@@ -829,51 +727,6 @@ bnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmR1Lg==
         <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">5</field>
         <field type="CharField" name="codename">delete_contenttype</field>
     </object>
-    <object pk="55" model="auth.permission">
-        <field type="CharField" name="name">Can add Document</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">19</field>
-        <field type="CharField" name="codename">add_document</field>
-    </object>
-    <object pk="56" model="auth.permission">
-        <field type="CharField" name="name">Can change Document</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">19</field>
-        <field type="CharField" name="codename">change_document</field>
-    </object>
-    <object pk="57" model="auth.permission">
-        <field type="CharField" name="name">Can delete Document</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">19</field>
-        <field type="CharField" name="codename">delete_document</field>
-    </object>
-    <object pk="58" model="auth.permission">
-        <field type="CharField" name="name">Can add Fichier</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">20</field>
-        <field type="CharField" name="codename">add_file</field>
-    </object>
-    <object pk="59" model="auth.permission">
-        <field type="CharField" name="name">Can change Fichier</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">20</field>
-        <field type="CharField" name="codename">change_file</field>
-    </object>
-    <object pk="60" model="auth.permission">
-        <field type="CharField" name="name">Can delete Fichier</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">20</field>
-        <field type="CharField" name="codename">delete_file</field>
-    </object>
-    <object pk="52" model="auth.permission">
-        <field type="CharField" name="name">Can add Répertoire</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">18</field>
-        <field type="CharField" name="codename">add_folder</field>
-    </object>
-    <object pk="53" model="auth.permission">
-        <field type="CharField" name="name">Can change Répertoire</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">18</field>
-        <field type="CharField" name="codename">change_folder</field>
-    </object>
-    <object pk="54" model="auth.permission">
-        <field type="CharField" name="name">Can delete Répertoire</field>
-        <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">18</field>
-        <field type="CharField" name="codename">delete_folder</field>
-    </object>
     <object pk="46" model="auth.permission">
         <field type="CharField" name="name">Can add Acteur</field>
         <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">16</field>
@@ -1039,68 +892,18 @@ bnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmR1Lg==
         <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">7</field>
         <field type="CharField" name="codename">delete_site</field>
     </object>
-    <object pk="1" model="auth.group">
-        <field type="CharField" name="name">FUT Factory</field>
-        <field to="auth.permission" name="permissions" rel="ManyToManyRel"><object pk="22"></object><object pk="23"></object><object pk="24"></object><object pk="4"></object><object pk="5"></object><object pk="6"></object><object pk="10"></object><object pk="11"></object><object pk="12"></object><object pk="1"></object><object pk="2"></object><object pk="3"></object><object pk="7"></object><object pk="8"></object><object pk="9"></object><object pk="13"></object><object pk="14"></object><object pk="15"></object><object pk="55"></object><object pk="56"></object><object pk="57"></object><object pk="58"></object><object pk="59"></object><object pk="60"></object><object pk="52"></object><object pk="53"></object><object pk="54"></object><object pk="46"></object><object pk="47"></object><object pk="48"></object><object pk="43"></object><object pk="44"></object><object pk="45"></object><object pk="37"></object><object pk="38"></object><object pk="39"></object><object pk="49"></object><object pk="50"></object><object pk="51"></object><object pk="25"></object><object pk="26"></object><object pk="27"></object><object pk="31"></object><object pk="32"></object><object pk="33"></object><object pk="28"></object><object pk="29"></object><object pk="30"></object><object pk="40"></object><object pk="41"></object><object pk="42"></object><object pk="34"></object><object pk="35"></object><object pk="36"></object><object pk="16"></object><object pk="17"></object><object pk="18"></object><object pk="19"></object><object pk="20"></object><object pk="21"></object></field>
-    </object>
-    <object pk="2" model="auth.group">
-        <field type="CharField" name="name">Administrateurs</field>
-        <field to="auth.permission" name="permissions" rel="ManyToManyRel"><object pk="22"></object><object pk="23"></object><object pk="24"></object><object pk="4"></object><object pk="5"></object><object pk="6"></object><object pk="10"></object><object pk="11"></object><object pk="12"></object><object pk="1"></object><object pk="2"></object><object pk="3"></object><object pk="7"></object><object pk="8"></object><object pk="9"></object><object pk="13"></object><object pk="14"></object><object pk="15"></object><object pk="55"></object><object pk="56"></object><object pk="57"></object><object pk="58"></object><object pk="59"></object><object pk="60"></object><object pk="52"></object><object pk="53"></object><object pk="54"></object><object pk="46"></object><object pk="47"></object><object pk="48"></object><object pk="43"></object><object pk="44"></object><object pk="45"></object><object pk="37"></object><object pk="38"></object><object pk="39"></object><object pk="49"></object><object pk="50"></object><object pk="51"></object><object pk="25"></object><object pk="26"></object><object pk="27"></object><object pk="31"></object><object pk="32"></object><object pk="33"></object><object pk="28"></object><object pk="29"></object><object pk="30"></object><object pk="40"></object><object pk="41"></object><object pk="42"></object><object pk="34"></object><object pk="35"></object><object pk="36"></object><object pk="16"></object><object pk="17"></object><object pk="18"></object><object pk="19"></object><object pk="20"></object><object pk="21"></object></field>
-    </object>
     <object pk="1" model="auth.user">
-        <field type="CharField" name="username">ludovic.legendart</field>
-        <field type="CharField" name="first_name">Ludovic</field>
-        <field type="CharField" name="last_name">LEGENDART</field>
+        <field type="CharField" name="username">ludovic</field>
+        <field type="CharField" name="first_name"></field>
+        <field type="CharField" name="last_name"></field>
         <field type="CharField" name="email">ludovic.legendar@green-conseil.com</field>
         <field type="CharField" name="password">sha1$85c60$5fe50f0b8e1c326a562f7a20bf498d3d95f5e9f0</field>
         <field type="BooleanField" name="is_staff">True</field>
         <field type="BooleanField" name="is_active">True</field>
         <field type="BooleanField" name="is_superuser">True</field>
-        <field type="DateTimeField" name="last_login">2011-08-25 00:03:01</field>
+        <field type="DateTimeField" name="last_login">2011-08-05 01:33:48</field>
         <field type="DateTimeField" name="date_joined">2011-08-05 01:33:37</field>
-        <field to="auth.group" name="groups" rel="ManyToManyRel"><object pk="2"></object></field>
-        <field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field>
-    </object>
-    <object pk="2" model="auth.user">
-        <field type="CharField" name="username">serge.rocco</field>
-        <field type="CharField" name="first_name">Serge</field>
-        <field type="CharField" name="last_name">ROCCO</field>
-        <field type="CharField" name="email">serge.rocco@green-conseil.com</field>
-        <field type="CharField" name="password">sha1$e1351$7f8be7bc0cfbc1f5d2d3a6aa677ac9ef0de88378</field>
-        <field type="BooleanField" name="is_staff">True</field>
-        <field type="BooleanField" name="is_active">True</field>
-        <field type="BooleanField" name="is_superuser">False</field>
-        <field type="DateTimeField" name="last_login">2011-08-25 00:22:46</field>
-        <field type="DateTimeField" name="date_joined">2011-08-25 00:22:46</field>
-        <field to="auth.group" name="groups" rel="ManyToManyRel"><object pk="1"></object></field>
-        <field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field>
-    </object>
-    <object pk="3" model="auth.user">
-        <field type="CharField" name="username">isabelle.cambusier</field>
-        <field type="CharField" name="first_name">Isabelle</field>
-        <field type="CharField" name="last_name">CAMBUSIER</field>
-        <field type="CharField" name="email">isabelle.cambusier@green-conseil.com</field>
-        <field type="CharField" name="password">sha1$3981d$484951056d37f5679a33abf5e7190989e68d97d6</field>
-        <field type="BooleanField" name="is_staff">True</field>
-        <field type="BooleanField" name="is_active">True</field>
-        <field type="BooleanField" name="is_superuser">False</field>
-        <field type="DateTimeField" name="last_login">2011-08-25 00:23:24</field>
-        <field type="DateTimeField" name="date_joined">2011-08-25 00:23:24</field>
-        <field to="auth.group" name="groups" rel="ManyToManyRel"><object pk="1"></object></field>
-        <field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field>
-    </object>
-    <object pk="4" model="auth.user">
-        <field type="CharField" name="username">julie.pellezeau</field>
-        <field type="CharField" name="first_name">Julie</field>
-        <field type="CharField" name="last_name">PELLE-ZEAU</field>
-        <field type="CharField" name="email">julie.pellezeau@green-conseil.com</field>
-        <field type="CharField" name="password">sha1$2ddbc$517892af021f1d70c8fa44715c2dfe4db35c3e0d</field>
-        <field type="BooleanField" name="is_staff">True</field>
-        <field type="BooleanField" name="is_active">True</field>
-        <field type="BooleanField" name="is_superuser">False</field>
-        <field type="DateTimeField" name="last_login">2011-08-25 00:24:14</field>
-        <field type="DateTimeField" name="date_joined">2011-08-25 00:24:14</field>
-        <field to="auth.group" name="groups" rel="ManyToManyRel"><object pk="1"></object></field>
+        <field to="auth.group" name="groups" rel="ManyToManyRel"></field>
         <field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field>
     </object>
 </django-objects>
